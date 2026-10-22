@@ -1,0 +1,8 @@
+install terraform
+install python
+install git & gitbash
+install azure cli
+and configure all of them
+
+You must have github account
+You must have azcloud subs acct
