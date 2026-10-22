@@ -1,22 +1,31 @@
-variable "resource_group_name" { type = string }
-variable "location" { type = string }
-variable "vnet_cidr" { type = string }
-variable "subnet_cidr" { type = string }
-
-resource "azurerm_virtual_network" "vnet" {
-  name                = "vnet-${var.location}"
-  address_space       = [var.vnet_cidr]
+resource "azurerm_kubernetes_cluster" "aks" {
+  name                = var.cluster_name
   location            = var.location
   resource_group_name = var.resource_group_name
+  dns_prefix          = var.dns_prefix
+
+  default_node_pool {
+    name            = "systempool"
+    node_count      = var.node_count
+    vm_size         = var.vm_size
+    vnet_subnet_id  = var.subnet_id
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  network_profile {
+    network_plugin     = "azure"
+    load_balancer_sku  = "standard"
+  }
 }
 
-resource "azurerm_subnet" "subnet" {
-  name                 = "subnet-${var.location}"
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [var.subnet_cidr]
+output "cluster_name" {
+  value = azurerm_kubernetes_cluster.aks.name
 }
 
-output "subnet_id" {
-  value = azurerm_subnet.subnet.id
+output "kube_config" {
+  value     = azurerm_kubernetes_cluster.aks.kube_config_raw
+  sensitive = true
 }
