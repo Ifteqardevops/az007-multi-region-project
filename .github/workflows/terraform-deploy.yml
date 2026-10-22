@@ -27,6 +27,11 @@ jobs:
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+                 ${{ secrets.subscription_id }}
+                 ${{ secrets.client_id }}
+                 ${{ secrets.client_secret }}
+                 ${{ secrets.tenant_id }}
+                 ${{ secrets.service_principal }}
 
       - name: Terraform Init
         run: terraform init
