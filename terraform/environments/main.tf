@@ -40,6 +40,7 @@ module "aks_primary" {
   dns_prefix          = "akseastus"
   subnet_id           = module.vnet_primary.subnet_id
   node_count          = 2
+  vm_size             = "var.vm_size"
 }
 
 # Secondary Region (West Europe)
@@ -59,4 +60,6 @@ module "aks_secondary" {
   dns_prefix          = "akswesteurope"
   subnet_id           = module.vnet_secondary.subnet_id
   node_count          = 2
+  vm_size             = "var.vm_size"
+
 }

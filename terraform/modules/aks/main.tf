@@ -19,6 +19,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
     network_plugin     = "azure"
     load_balancer_sku  = "standard"
   }
+  tags = {
+    Environment = "Production"
+    ManagedBy   = "Terraform"
+  }
 }
 
 output "cluster_name" {
